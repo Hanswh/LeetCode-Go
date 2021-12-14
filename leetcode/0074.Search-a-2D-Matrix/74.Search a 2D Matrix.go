@@ -1,6 +1,6 @@
 package leetcode
 
-// 二分搜索，这个矩阵可以看作一个有序的一维数组，只不过需要经过左边转换
+// 二分搜索，这个矩阵可以看作一个有序的一维数组，只不过需要经过坐标转换
 func searchMatrix(matrix [][]int, target int) bool {
 	if len(matrix) == 0 {
 		return false
