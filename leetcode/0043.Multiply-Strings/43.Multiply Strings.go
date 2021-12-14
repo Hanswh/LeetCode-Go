@@ -1,6 +1,10 @@
 package leetcode
 
+// 模拟乘
 func multiply(num1 string, num2 string) string {
+	// 使用[]int保存结果，两数相乘位数一定小于len(nums1)+len(nums2)
+	// nums1中第i位数字和nums2中第j位数字，其乘积直接影响product中的第i+j+1位数字
+	// 下面为了减少运算次数，先直接算出product中每位的数字，再去统一求进位得出具体结果（其实这样做如果数字特别大，product中每位的数字可能溢出）
 	product := make([]int, len(num1)+len(num2)) // 这里使用int，因为过程中会溢出
 	for i := 0; i < len(num1); i++ {
 		for j := 0; j < len(num2); j++ {
