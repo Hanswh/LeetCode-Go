@@ -12,21 +12,18 @@ type Solution interface {
 }
 
 // Solution1 数组缓存，可以随机访问
-type Solution1 struct {
-	arr []int
-}
+type Solution1 []int
 
-func Constructor1(head *ListNode) Solution1 {
-	solution := Solution1{arr: []int{}}
+func Constructor1(head *ListNode) (s Solution1) {
 	for head != nil {
-		solution.arr = append(solution.arr, head.Val)
+		s = append(s, head.Val)
 		head = head.Next
 	}
-	return solution
+	return
 }
 
-func (s *Solution1) GetRandom() int {
-	return s.arr[rand.Int()%len(s.arr)]
+func (s Solution1) GetRandom() int {
+	return s[rand.Intn(len(s))]
 }
 
 // Solution2 存头结点
@@ -35,18 +32,18 @@ type Solution2 struct {
 	len  int
 }
 
-func Constructor2(head *ListNode) Solution2 {
-	count := 0
-	cur := head
-	for cur != nil {
-		count++
-		cur = cur.Next
+func Constructor2(head *ListNode) (s Solution2) {
+	s.head = head
+	s.len = 0
+	for head != nil {
+		s.len++
+		head = head.Next
 	}
-	return Solution2{head: head, len: count}
+	return
 }
 
-func (s *Solution2) GetRandom() int {
-	index := rand.Int() % s.len
+func (s Solution2) GetRandom() int {
+	index := rand.Intn(s.len)
 	cur := s.head
 	for index > 0 {
 		cur = cur.Next
