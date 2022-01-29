@@ -1,7 +1,7 @@
 package leetcode
 
-// 笨方法，边转后缀边计算，额外考虑了乘除
-func calculate(s string) int {
+// 边转后缀边计算，额外考虑了括号，和题224方法一代码一样
+func calculate1(s string) int {
 	var ops []string // 运算符栈
 	var nums []int   // 操作数栈
 
@@ -111,36 +111,36 @@ func atoi(s string) int {
 	return n * flag
 }
 
-// 因为只这题只有加减号，可以简化
-// 思路是让每个数字前面的运算符都变成展开括号后的值，运算后加到结果上
-// 我们用栈保存每一层括号前面的符号，即(1+1)还是-(1+1)
+// 先算乘除，再算加减
 func calculate2(s string) (ans int) {
-	ops := []int{1}
-	sign := 1
-	n := len(s)
-	for i := 0; i < n; {
-		switch s[i] {
-		case ' ':
-			i++
-		case '+':
-			sign = ops[len(ops)-1]
-			i++
-		case '-':
-			sign = -ops[len(ops)-1]
-			i++
-		case '(':
-			ops = append(ops, sign)
-			i++
-		case ')':
-			ops = ops[:len(ops)-1]
-			i++
-		default:
-			num := 0
-			for ; i < n && '0' <= s[i] && s[i] <= '9'; i++ {
-				num = num*10 + int(s[i]-'0')
-			}
-			ans += sign * num
+	stack := []int{}
+	preSign := '+'
+	num := 0
+	// 先计算乘除
+	//
+	for i, ch := range s {
+		isDigit := '0' <= ch && ch <= '9'
+		if isDigit {
+			num = num*10 + int(ch-'0')
 		}
+		if !isDigit && ch != ' ' || i == len(s)-1 {
+			switch preSign {
+			case '+':
+				stack = append(stack, num)
+			case '-':
+				stack = append(stack, -num)
+			case '*':
+				stack[len(stack)-1] *= num
+			default:
+				stack[len(stack)-1] /= num
+			}
+			preSign = ch
+			num = 0
+		}
+	}
+	// 加减
+	for _, v := range stack {
+		ans += v
 	}
 	return
 }
