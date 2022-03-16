@@ -27,6 +27,7 @@ func numDistinct(s string, t string) int {
 // 当s[i-1] == t[j-1]时	如果使用s[i-1]去匹配t[j-1]，则子序列数为dp[i-1][j-1]
 // 					如果不用s[i]去匹配t[j]，则子序列数为dp[i-1][j]（用i之前的数匹配j)
 // 当s[i-1] != t[j-1]时	子序列数为dp[i-1][j]
+// 所求为dp[len(s)][len(t)]
 func numDistinct2(s string, t string) int {
 	dp := make([][]int, len(s)+1)
 	for i := range dp {
